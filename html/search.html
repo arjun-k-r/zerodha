@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class = "table-responsive">
+	<table class = "table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Code</th>
+				<th>Name</th>
+				<th>Open</th>
+				<th>High</th>
+				<th>Low</th>
+				<th>Close</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for element in array %}
+			<tr>
+				<td>{{ element.Name }}</td>
+				<td>{{ element.Code }}</td>
+				<td>{{ element.Open }}</td>
+				<td>{{ element.High }}</td>
+				<td>{{ element.Low }}</td>
+				<td>{{ element.Close }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% endblock %}

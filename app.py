@@ -8,7 +8,15 @@ env = Environment(loader=FileSystemLoader('html'))
 class HelloWorld(object):
     @cherrypy.expose
     def index(self):
-        return ("Zerodha: Python test task")
+
+        tmpl = env.get_template('index.html')
+        return tmpl.render()
+
+    @cherrypy.expose
+    def search(self, query = None):
+
+        tmpl = env.get_template('search.html')
+        return tmpl.render()
 
 config = {
     'global': {
