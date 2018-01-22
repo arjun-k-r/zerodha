@@ -1,27 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="static/favicon.ico">
-    <link href="assets/bootstrap.min.css" rel="stylesheet">
-    <title>Zerodha: Python test task</title>
-  </head>
-  <body>
-    <div class = "container">
-    	<div class = "col-md-9" role = "main">
-    		<div class = "alignwb">
-    			<a class = "navbar-brand" href = "/">Zerodha: Python test task</a>
-    		</div>
-	        <form class = "form-inline" action = "/search" method = "get">
-	        	<div class="col-xs-4" style="padding: 10px">
-	        		<input autofocus class = "form-control" type = "text" name = "query" value = "{{ query }}" placeholder = "Search" autocomplete = "off" maxlength = "52">
-	        	</div>
-	        	<button type="submit" class="btn btn-default">Search</button>
-	        </form>
-			{% block body %} {% endblock %}
-		</div>
-	</div>
-  </body>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Zerodha: Python test task</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/" class="logo"><strong>Zerodha: Python test task solution</strong> by howdyauthors</a>
+									<ul class="icons">
+										<li><a href="https://github.com/howdyauthors/zerodha" target="_blank" class="icon fa-github"><span class="label">GitHub</span></a></li>
+										<li><a href="https://twitter.com/ajaymkatte" target="_blank" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="https://facebook.com/ajaymkatte" target="_blank" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+										<li><a href="https://instagram.com/ajaymkate" target="_blank" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+									</ul>
+								</header>
+
+							<!-- Banner -->
+								<section>
+									<header class = "main"><h1>{{ heading }}</h1></header>
+									<div class="table-wrapper">
+														<table class = "alt">
+															<thead>
+																<tr>
+																	<th>Code</th>
+																	<th>Name</th>
+																	<th>Open</th>
+																	<th>High</th>
+																	<th>Low</th>
+																	<th>Close</th>
+																</tr>
+															</thead>
+															<tbody>
+																{% block body %}{% endblock %}
+															</tbody>
+															<tfoot>
+																<tr>
+																	<td colspan="5"></td>
+																	<td>Last Updated: {{ last_update }}</td>
+																</tr>
+															</tfoot>
+														</table>
+									</div>
+									<span class="image object">
+										<img src="images/pic10.jpg" alt="" />
+									</span>
+								</section>
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search -->
+								<section id="search" class="alt">
+									<form method="get" action="/search">
+										<input autofocus type="text" name="query" id="query" placeholder="Search" value = "{{ query }}" autocomplete = "off" maxlength = "52"/>
+									</form>
+								</section>
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+										<li><a href="/">Bhav Copy</a></li>
+										<li><a href="https://github.com/howdyauthors/zerodha" target="_blank">Fork me here</a></li>
+										<li>
+											<span class="opener">Social Media</span>
+											<ul>
+												<li><a href="https://facebook.com/ajaymkatte" target="_blank">Facebook</a></li>
+												<li><a href="https://twitter.com/ajaymkatte" target="_blank">Twitter</a></li>
+											</ul>
+										</li>
+									</ul>
+								</nav>
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>Get in touch</h2>
+									</header>
+									<ul class="contact">
+										<li class="fa-envelope-o"><a href="mailto:ajaymkatte95@gmail.com">ajaymkatte95@gmail.com</a></li>
+										<li class="fa-phone">9743665056</li>
+										<li class="fa-home">JP Nagar<br />
+										Bangalore, IN</li>
+									</ul>
+								</section>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; howdyauthors<br> All rights reserved.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+		<!--A huge thanks to our friends at html5up.net-->
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
 </html>

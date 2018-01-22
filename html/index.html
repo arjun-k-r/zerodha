@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class = "alignwb">
-	<p>You can get in touch with me here: <a href="mailto:exileandlek@gmail.com" target="_blank">exileandlek@gmail.com</a>.</p>
-</div>
+	    {% for entry in equity %}
+		    <tr>
+		    	<td>{{ entry.Code }}</td>
+		        <td>{{ entry.Name }}</td>
+		        <td>{{ entry.Open }}</td>
+		    	<td>{{ entry.High }}</td>
+		        <td>{{ entry.Low }}</td>
+		        <td>{{ entry.Close }}</td>
+	        </tr>
+	    {% endfor %}
 {% endblock %}
