@@ -11,7 +11,8 @@ import redis
 class Parse():
 
 	def __init__(self):
-		self.fdate = (date.today()).strftime('%d%m%y')				#keep track of today's date
+		self.fdate = (date.today()).strftime('%d%m%y')							#keep track of today's date
+		self.tnum = datetime.today().isoweekday()
 		self.cwd = os.getcwd()
 		self.zipname = self.fdate + ".zip"
 		self.csvname = "EQ" + self.fdate + ".CSV"
@@ -19,6 +20,20 @@ class Parse():
 
 	def obtain(self):
 
+		'''
+			IMPORTANT: Do not un-comment the following two lines on the first use
+
+			The following code, sort of automates the process of updating redis database.
+
+			It will update during the first session of every working day, Tuesday through Saturday.
+
+			Only un-comment after deploying the webapp and running the first session.
+		'''
+
+		#if (self.fdate == (self.red.lrange("last_updated", 0, 0)[0]).decode('UTF-8')):    	#checks if the database already exists
+		#	return (self.fromdb())															#return db if it does
+
+		#else 
 		urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname) #retrieve zip file
 
 		zp = zipfile.ZipFile(self.cwd + "/" + self.zipname)
@@ -30,7 +45,7 @@ class Parse():
 		return (req)
 
 	def parse(self):
-		self.red.flushall()														#flushing the yesterday's database
+		self.red.flushall()														#flushing yesterday's database
 
 		with open(self.csvname) as csvfile:
 			eq = list(csv.DictReader(csvfile))									#parsing csv
@@ -50,3 +65,9 @@ class Parse():
 			reg = self.red.hgetall(entry)
 			req.append(reg)
 		return req
+
+	def last_update(self):
+		return ((self.red.lrange("last_updated", 0, 0)[0]).decode('UTF-8'))		#return the last update date
+
+	def search(self, q):														#searching for a particular entry and returing the same if it exists
+			return (self.red.hgetall(q))
