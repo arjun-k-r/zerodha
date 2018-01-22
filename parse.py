@@ -16,7 +16,8 @@ class Parse():
 		self.cwd = os.getcwd()
 		self.zipname = self.fdate + ".zip"
 		self.csvname = "EQ" + self.fdate + ".CSV"
-		self.red = redis.Redis('localhost')
+		#self.red = redis.Redis('localhost')
+		self.red = redis.from_url(os.environ.get("REDIS_URL"))
 
 	def obtain(self):
 
