@@ -27,13 +27,11 @@ class HelloWorld(object):
 
         last_update = par.last_update()                 #fetch last update date
 
-        print("\n\n\n")
-        print (equity)
-        print("\n\n\n")
         unidict = []
 
         if len(equity) > 0:
-            unidict.append({key.decode('utf8'): value.decode('utf8') for key, value in equity.items()})         #decode
+            for entry in equity:
+                unidict.append({key.decode('utf8'): value.decode('utf8') for key, value in entry.items()})         #decode
 
         tmpl = env.get_template('search.html')
         return tmpl.render(equity = unidict, query = query, last_update = last_update, heading = ("Results for " + query) if len(unidict) > 0 else "No matches found")
