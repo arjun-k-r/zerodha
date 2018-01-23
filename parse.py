@@ -30,11 +30,9 @@ class Parse():
 
 			Only un-comment after deploying the webapp and running the first session.
 		'''
-		print (self.fdate)
-		if (self.fdate == self.last_update() and (self.tnum > 1 and self.tnum < 7)):    	#checks if the database already exists
-			return (self.fromdb())															#return db if it does
+		#if (self.fdate == self.last_update() and (self.tnum > 1 and self.tnum < 7)):    	#checks if the database already exists
+		#	return (self.fromdb())															#return db if it does
 
-		#else
 		urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname) #retrieve zip file
 
 		zp = zipfile.ZipFile(self.cwd + "/" + self.zipname)
