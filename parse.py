@@ -14,11 +14,6 @@ class Parse():
 
 	def __init__(self):
 		self.fdate = date.today().strftime('%d%m%y')
-		'''
-			IMPORTANT: This web application assumes that redis database is already populated.
-			If you try to run the app during the weekends or holidays(first session), please un-comment the following line of code during the first session and delete the same after.
-		'''
-		#self.fdate = "220118"
 		self.cwd = os.getcwd()
 		self.zipname = self.fdate + ".zip"
 		self.csvname = "EQ" + self.fdate + ".CSV"
@@ -27,27 +22,20 @@ class Parse():
 
 	def obtain(self):
 
-		'''
-			IMPORTANT: This web application assumes that redis database is already populated.
-			If you try to run the app during the weekends or holidays(first session), please un-comment the following line of code during the first session and delete the same after.
-		'''
-		#urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname)
-
-		'''
-			And comment the following entire condition and un-comment after.
-		'''
-
-		if self.fdate != self.last_update():									#this condition automates the process of populating the database with latest values
-			try:
-				urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname) #retrieve zip file
-			except urllib.error.HTTPError:										#if the zipfile is not found, return values from the already populated database with previous(open) day's values.
+		try:
+			if self.fdate != self.last_update():									#this condition automates the process of populating the database with latest values
 				try:
-					os.remove(self.zipname)
-				except FileNotFoundError:
-					pass
-				return(self.fromdb())
-		else:
-			return (self.fromdb())
+					urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname) #retrieve zip file
+				except urllib.error.HTTPError:										#if the zipfile is not found, return values from the already populated database with previous(open) day's values.
+					try:
+						os.remove(self.zipname)
+					except FileNotFoundError:
+						pass
+					return(self.fromdb())
+			else:
+				return (self.fromdb())
+		except IndexError:
+				urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname)
 
 		zp = zipfile.ZipFile(self.cwd + "/" + self.zipname)
 		zp.extractall()
