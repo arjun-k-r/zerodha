@@ -4,15 +4,21 @@ import zipfile
 import csv
 try:
 	from urllib.request import urlretrieve
+	import urllib
 except ImportError:
 	from urllib import urlretrieve
+	import urllib
 import redis
 
 class Parse():
 
 	def __init__(self):
-		self.fdate = (date.today() - timedelta(1)).strftime('%d%m%y')							#keep track of today's date
-		self.tnum = datetime.today().isoweekday()
+		self.fdate = date.today().strftime('%d%m%y')
+		'''
+			IMPORTANT: This web application assumes that redis database is already populated.
+			If you try to run the app during the weekends or holidays(first session), please un-comment the following line of code during the first session and delete the same after.
+		'''
+		#self.fdate = "220118"
 		self.cwd = os.getcwd()
 		self.zipname = self.fdate + ".zip"
 		self.csvname = "EQ" + self.fdate + ".CSV"
@@ -22,18 +28,24 @@ class Parse():
 	def obtain(self):
 
 		'''
-			IMPORTANT: Do not un-comment the following two lines on the first use
-
-			The following code, sort of automates the process of updating redis database.
-
-			It will update during the first session of every working day, Tuesday through Saturday.
-
-			Only un-comment after deploying the webapp and running the first session.
+			IMPORTANT: This web application assumes that redis database is already populated.
+			If you try to run the app during the weekends or holidays(first session), please un-comment the following line of code during the first session and delete the same after.
 		'''
-		#if (self.fdate == self.last_update() and (self.tnum > 1 and self.tnum < 7)):    	#checks if the database already exists
-		#	return (self.fromdb())															#return db if it does
+		#urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname)
 
-		urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname) #retrieve zip file
+		'''
+			And comment the following entire condition and un-comment after.
+		'''
+
+		if self.fdate != self.last_update():									#this condition automates the process of populating the database with latest values
+			try:
+				urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname) #retrieve zip file
+			except urllib.error.HTTPError:										#if the zipfile is not found, return values from the already populated database with previous(open) day's values.
+				try:
+					os.remove(self.zipname)
+				except FileNotFoundError:
+					pass
+				return(self.fromdb())
 
 		zp = zipfile.ZipFile(self.cwd + "/" + self.zipname)
 		zp.extractall()
@@ -47,7 +59,7 @@ class Parse():
 		self.red.flushall()														#flushing yesterday's database
 
 		with open(self.csvname) as csvfile:
-			eq = list(csv.DictReader(csvfile))									#parsing csv
+			eq = list(csv.DictReader(csvfile))									#parsing the csv
 
 		for name in eq:
 			stripped_name = name['SC_NAME'].rstrip()
