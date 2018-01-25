@@ -46,6 +46,8 @@ class Parse():
 				except FileNotFoundError:
 					pass
 				return(self.fromdb())
+		else:
+			return (self.fromdb())
 
 		zp = zipfile.ZipFile(self.cwd + "/" + self.zipname)
 		zp.extractall()
