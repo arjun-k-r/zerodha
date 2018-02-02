@@ -9,6 +9,8 @@ except ImportError:
 	from urllib import urlretrieve
 	import urllib
 import redis
+import requests
+import re
 
 class Parse():
 
@@ -34,8 +36,11 @@ class Parse():
 					return(self.fromdb())
 			else:
 				return (self.fromdb())
-		except IndexError:
-				urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/EQ" + self.fdate +  "_CSV.ZIP", self.zipname)
+		except IndexError:															#if today's bhav copy is yet to be uploaded or it today is an off day, download the last open day's file
+			source = requests.get("http://www.bseindia.com/markets/equity/EQReports/Equitydebcopy.aspx")
+			links = re.search("http://www.bseindia.com/download/BhavCopy/Equity/([A-Za-z0-9]+)_CSV.ZIP", source.content.decode('utf-8'))
+			urlretrieve("http://www.bseindia.com/download/BhavCopy/Equity/" + links.group(1) +  "_CSV.ZIP", self.zipname)
+			self.fdate = links.group(1).replace("EQ", "")
 
 		zp = zipfile.ZipFile(self.cwd + "/" + self.zipname)
 		zp.extractall()
